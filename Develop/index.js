@@ -1,7 +1,6 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 
-
 const promptUser = () => {
   return inquirer.prompt([
     {
@@ -33,16 +32,19 @@ const promptUser = () => {
       type: 'input',
       name: 'tests',
       message: 'Enter the test instructions for your repository.',
-
+    },
+    {
       type: 'list',
       name: 'license',
       message: 'Which license would you like to use?',
-      choices: 'Apache, MIT, BSD, Unlicense',
-
+      choices: ['Apache', 'MIT', 'BSD', 'Unlicense'],
+    },
+    {
       type: 'input',
       name: 'github',
       message: 'Please enter your Github username.',
-
+    },
+    {
       type: 'input',
       name: 'email',
       message: 'Please enter your Email address.',
@@ -51,29 +53,36 @@ const promptUser = () => {
 };
 
 const generateREADME = ({ title, description, installation, usage, contributing, tests, license, github, email }) =>
-  `# Title
-    ${title}
+`# Title
+${title}
 
-  ## Description
-    ${description}
+# Description
+${description}
 
-  ### Installation Instructions
-    ${installation}
+# Installation Instructions
+${installation}
 
-  #### Usage Information
-    ${usage}
+# Usage Information
+${usage}
 
-  ##### Contribution Guidelines
-    ${contributing}
+# Contribution Guidelines
+${contributing}
 
-  ###### Test Instructions
-    ${tests}
+# Test Instructions
+${tests}
 
-  ####### License
-  License: ${license}
+# License
+License: ${license}
 
-  ######## Questions
-  Github: ${github}
-  Email: ${email}`;
+# Questions 
+Github: ${github}
+Email: ${email}`;
 
-    // add const init to write readme n stuff + promptUser function -- cant forget that
+  const init = () => {
+    promptUser()
+      .then((answers) => fs.writeFileSync('README.md', generateREADME(answers)))
+      .then(() => console.log('Successfully wrote to README.md'))
+      .catch((err) => console.error(err));
+  };
+  
+  init();
