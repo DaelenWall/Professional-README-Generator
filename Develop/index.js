@@ -1,7 +1,8 @@
+// downloaded material/requires
 const inquirer = require('inquirer');
 const fs = require('fs');
 
-
+// user questions
 const promptUser = () => {
   return inquirer.prompt([
     {
@@ -53,6 +54,7 @@ const promptUser = () => {
   ]);
 };
 
+// README skeleton
 const generateREADME = ({ title, description, installation, usage, contributing, tests, license, github, email }) =>
 `
 # Table of Contents
@@ -83,16 +85,17 @@ ${contributing}
 ${tests}
 
 ## License
-License: ${license}
+The License used for this repository is: ${license}
 
 ## Questions 
 * Github: ${github}
 * Email: ${email}`;
 
+// README generator + error catcher
   const init = () => {
     promptUser()
       .then((answers) => fs.writeFileSync('genREADME.md', generateREADME(answers)))
-      .then(() => console.log('Successfully wrote to README.md'))
+      .then(() => console.log('Successfully wrote to genREADME.md'))
       .catch((err) => console.error(err));
   };
   
